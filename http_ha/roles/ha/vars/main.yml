@@ -1,0 +1,7 @@
+vip: 192.168.4.60
+
+master_hostname: mysql51
+master_ip: 192.168.4.51
+
+backup1_hostname: mysql52
+backup1_ip: 192.168.4.52

@@ -1,0 +1,10 @@
+- name: install keepalived
+  yum: name=keepalived state=latest
+- name: copy config_tpl file to remote
+  template:
+    src: keepalived.j2
+    dest: /etc/keepalived/keepalived.conf
+- name: running keepalived
+  service: name=keepalived state=restarted
+  notify:
+    - clear iptables

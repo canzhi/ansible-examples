@@ -1,0 +1,6 @@
+---
+- hosts: webs
+  remote_user: root
+  roles:
+    - web
+    - ha
