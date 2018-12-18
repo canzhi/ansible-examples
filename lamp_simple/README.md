@@ -1,5 +1,8 @@
-[webservers]
-localhost
+### 使用如下命令部署
 
-[dbservers]
-bensible
+***
+
+```shell
+ansible-playbook -i hosts site.yml
+```
+
