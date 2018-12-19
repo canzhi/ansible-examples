@@ -1,0 +1,20 @@
+---
+# This playbook contains common plays that will be run on all nodes.
+
+- name: Install chrony
+  yum: name=chrony state=present
+  tags: chrony
+
+- name: Configure chronyd file
+  template: src=chrony.conf.j2 dest=/etc/chrony.conf
+  tags: chrony
+  notify: restart chronyd
+
+- name: Start the chronyd service
+  service: name=chronyd state=started enabled=yes
+  tags: chrony
+
+- name: test to if selinux is running
+  command: getenforce
+  register: sestatus
+  changed_when: false
