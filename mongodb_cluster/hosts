@@ -1,0 +1,4 @@
+[nodes]
+192.168.4.51 mongodb_port=27051
+192.168.4.52 mongodb_port=27052
+192.168.4.53 mongodb_port=27053

@@ -1,0 +1,6 @@
+---
+- name: install mongodb
+  hosts: nodes
+  remote_user: root
+  roles: 
+    - mongodb

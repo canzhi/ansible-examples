@@ -1,0 +1,40 @@
+---
+- name: unpack 
+  unarchive: 
+    src: /root/document/software/mongodb/mongodb-linux-x86_64-rhel70-3.6.3.tgz  
+    dest: /usr/local/ 
+  tags: mongodb
+
+- name: create init_dir
+  file: path=/usr/local/mongodb-linux-x86_64-rhel70-3.6.3/{{ item }} state=directory
+  with_items:
+    - etc
+    - data/db
+    - log
+
+- name: write the config file
+  copy: 
+    content: |
+      fork=true
+      logpath=/usr/local/mongodb-linux-x86_64-rhel70-3.6.3/log/mongodb.log
+      logappend=true
+      dbpath=/usr/local/mongodb-linux-x86_64-rhel70-3.6.3/data/db
+      bind_ip={{ ansible_eth0.ipv4.address }}
+      port={{ mongodb_port }}
+
+    dest: /usr/local/mongodb-linux-x86_64-rhel70-3.6.3/etc/mongodb.conf
+
+
+- name: alias
+  lineinfile: 
+    path: /root/.bashrc
+    line: |
+      alias mongodb_start='/usr/local/mongodb-linux-x86_64-rhel70-3.6.3/bin/mongod -f /usr/local/mongodb-linux-x86_64-rhel70-3.6.3/etc/mongodb.conf'
+      alias mongodb_stop='/usr/local/mongodb-linux-x86_64-rhel70-3.6.3/bin/mongod -f /usr/local/mongodb-linux-x86_64-rhel70-3.6.3/etc/mongodb.conf --shutdown'
+
+
+- name: start server
+  command: /usr/local/mongodb-linux-x86_64-rhel70-3.6.3/bin/mongod -f /usr/local/mongodb-linux-x86_64-rhel70-3.6.3/etc/mongodb.conf
+
+
+
