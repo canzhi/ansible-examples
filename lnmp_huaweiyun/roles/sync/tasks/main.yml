@@ -1,0 +1,15 @@
+---
+- name: install inotify
+  yum: name=inotify-tools
+
+- name: install rsync
+  yum: name=rsync 
+
+- name: upload script
+  copy: src=sync.sh dest=/sbin/ mode=0755
+
+- name: enabled
+  lineinfile: path=/etc/rc.local line="/sbin/sync.sh" 
+
+- name: start sync.sh
+  shell: /sbin/sync.sh

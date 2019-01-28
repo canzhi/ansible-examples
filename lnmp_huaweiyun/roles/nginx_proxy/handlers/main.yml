@@ -1,0 +1,9 @@
+---
+- name: restart nginx
+  shell: /sbin/nginx -s reload
+
+- name: restart keepalived
+  service: name=keepalived state=restarted
+
+- name: iptables
+  shell: iptables -F

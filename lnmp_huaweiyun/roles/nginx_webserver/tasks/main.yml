@@ -1,0 +1,15 @@
+---
+- name: install nginx
+  yum: name=nginx state=latest
+
+- name: install nfs-utils
+  yum: name=nfs-utils
+
+- name: mount /usr/local/nginx/html
+  mount: src=192.168.1.200:/nfs_share path=/usr/local/nginx/html state=mounted fstype=nfs
+  notify:
+    - restart nginx
+
+- name: start nginx
+  shell: /sbin/nginx
+  ignore_errors: true

@@ -1,0 +1,5 @@
+---
+- hosts: nginx_webserver
+  remote_user: root
+  roles:
+    - nginx_webserver

@@ -1,0 +1,28 @@
+- name: install nginx
+  yum: name=nginx state=latest 
+
+- name: config the nginx.conf
+  copy: src=nginx.conf  dest=/usr/local/nginx/conf/nginx.conf
+  notify: 
+    - restart nginx
+
+- name: start nginx
+  shell: /sbin/nginx
+  ignore_errors: true
+
+- name: install keepalive
+  yum: name=keepalived state=latest
+
+- name: config keepalived
+  template: src=keepalived.conf.j2 dest=/etc/keepalived/keepalived.conf
+  notify:
+    - restart keepalived
+    - iptables
+
+- name: upload nginx.sh
+  copy: src=nginx.sh dest=/etc/keepalived/ mode=0755
+
+- name: start keepalived
+  service: name=keepalived state=started enabled=yes
+  notify:
+    - iptables

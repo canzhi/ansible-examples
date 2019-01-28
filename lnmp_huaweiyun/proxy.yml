@@ -1,0 +1,6 @@
+---
+- hosts: nginx_proxy
+  remote_user: root
+  roles:
+    - nginx_proxy
+

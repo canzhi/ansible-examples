@@ -1,0 +1,39 @@
+---
+- name: install nfs-utils
+  yum: name=nfs-utils
+
+- name: install rpcbind
+  yum: name=rpcbind
+
+- name: create nfs_share
+  file: path=/nfs_share state=directory  mode=0755
+
+- name: config nfsserver
+  copy: src=exports dest=/etc/
+
+- name: start rpcbind
+  service: name=rpcbind state=started enabled=yes
+
+- name: start nfs
+  service: name=nfs state=started enabled=yes
+
+- name: install keepalived
+  yum: name=keepalived 
+
+- name: config keepalived.conf
+  template: src=keepalived.conf.j2 dest=/etc/keepalived/keepalived.conf
+  notify:
+    - restart keepalived
+    - iptables
+
+- name: upload nfs.sh
+  copy: src=nfs.sh dest=/etc/keepalived/ mode=0755
+
+- name: start keepalived
+  service: name=keepalived state=started
+  notify:
+    - iptables
+
+- name: install rsync
+  yum: name=rsync
+
